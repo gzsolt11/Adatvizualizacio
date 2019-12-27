@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/SzékelyData/databaseAdatviz" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><current_tab id="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="3079"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="HU"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="HU" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk=""><sort/><column_widths/><filter_values/><display_formats/><hidden_columns/><plot_y_axes/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">
+
+--Minden 3 evben mennyi volt a feljegyzett fustoknek a szama Romaniaban
+
+select substr(YR_MODAHRMN,0,5) / 3 , count(*)
+from RO
+WHERE MW1 = '03' or MW2 = '03' or MW2 = '03' or MW2 = '03' or AW1 = '03' or AW2 = '03' or AW2 = '03' or AW2 = '03' or W = '1' or W = '2' or W = '3'
+group by substr(YR_MODAHRMN,0,5) / 3;
+
+
+--Minden helysegre miden evben az atlag napi homerseklet, atlag napi szelerosseg, ahol nagyobb volt a homerseklet, mint -41 es kisebb mint 113, 1990 utantol
+
+SELECT s.STATIONNAME as Nev, s.LATITUDE,s.LONGITUDE, r.YR_MODAHRMN as Datum, avg(r.SPD) as Szel, avg(r.TEMP )
+FROM RO r join ROstn s
+on r.USAF = s.USAF_WBAN
+WHERE r.spd &gt; 2.0 and r.temp &gt; -41 and r.TEMP &lt; 113
+GROUP by substr(r.YR_MODAHRMN,0,9), s.STATIONNAME
+HAVING substr(r.YR_MODAHRMN,0,5) &gt;= 1990;
+
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
